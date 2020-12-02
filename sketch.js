@@ -4,7 +4,7 @@ var fastest, weight;
 function setup() {
   createCanvas(1600, 400)
   thickness = random(22, 83)
-  fastest = random(225, 321)
+  fastest = random(223, 321)
   weight = random(30, 52)
   bullet = createSprite(50, 200, 50, 5);
   bullet.velocityX = fastest;
