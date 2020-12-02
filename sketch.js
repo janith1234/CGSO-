@@ -1,39 +1,33 @@
-var fixedRect, movingRect;
-
+var thickness
+var bullet, wall1;
+var fastest, weight;
 function setup() {
-  createCanvas(1200,800);
-  fixedRect = createSprite(400, 100, 50, 80);
-  fixedRect.shapeColor = "green";
-  fixedRect.debug = true;
-  movingRect = createSprite(400, 800,80,30);
-  movingRect.shapeColor = "green";
-  movingRect.debug = true;
-  Ironman=createSprite(400,400,20,20)
-  Ironman.shapeColor="red"
-  Ironman.debug=true;
-  Ironman.velocityY=2;
-  movingRect.velocityY = -5;
-  fixedRect.velocityY = +5;
-}
+  createCanvas(1600, 400)
+  thickness = random(22, 83)
+  fastest = random(223, 321)
+  weight = random(30, 52)
+  bullet = createSprite(50, 200, 50, 5);
+  bullet.velocityX = fastest;
+  bullet.shapeColor = color(255);
+  wall1 = createSprite(1200, 200, thickness, height / 2)
+  wall1.shapeColor = color(80, 80, 80)
+} function draw() {
+  background(0);
+  if (hasCollided(bullet, wall1)) {
+    bullet.velocityX = 0;
+    damage = 0.5 * weight * fastest * fastest / (thickness * thickness * thickness)
+    if (damage < 10) {
+      wall1.shapeColor = "green";
+    }
+    else {
+      wall1.shapeColor = "red";
 
-function draw() {
-  background(0,0,0);  
+    }
+  }
 
-  bounceOff(Ironman,movingRect);
-
-  bounceOff(movingRect,fixedRect);
   drawSprites();
 }
-
-function bounceOff(object1,object2){
-  if (object1.x - object2.x < object2.width/2 + object1.width/2
-    && object2.x - object1.x < object2.width/2 + object1.width/2) {
-    object1.velocityX = object1.velocityX * (-1);
-    object2.velocityX = object2.velocityX * (-1);
-  }
-  if (object1.y - object2.y < object2.height/2 + object1.height/2
-    && object2.y - object2.y < object2.height/2 + object1.height/2) {
-      object1.velocityY = object1.velocityY * (-1);
-      object2.velocityY = object2.velocityY * (-1);
-  } 
+function hasCollided(lbullet, lwall) {
+  bulletRightEdge = lbullet.x + lbullet.width; wallLeftEdge = lwall.x;
+  if (bulletRightEdge >= wallLeftEdge) { return true } return false;
 }
